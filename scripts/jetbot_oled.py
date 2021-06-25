@@ -274,7 +274,7 @@ if __name__ == '__main__':
 				if not user_text is None and len(user_text) <= 10:
 					d = 8
 
-					disp2.print(user_text)
+					disp2.print(str(user_text))
 			
 					#Set Cursor at Origin
 					disp2.set_cursor(0, d)

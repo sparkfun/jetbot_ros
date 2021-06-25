@@ -2,7 +2,7 @@
 import rospy
 import time
 
-import qwiic_scmd
+import qwiic
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 
 from std_msgs.msg import String
@@ -109,7 +109,7 @@ if __name__ == '__main__':
 	
 	elif 93 in addresses:
 		# setup motor controller
-		motor_driver = qwiic_scmd.QwiicScmd()
+		motor_driver = qwiic.QwiicScmd()
 
 		
 	# stop the motors as precaution
