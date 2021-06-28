@@ -213,8 +213,8 @@ if __name__ == '__main__':
 				draw.text((x, top+25),    "Disk: " + str(DiskUsage.decode('utf-8')) + "GB",  font=font, fill=255)
 
 				# Display image.
-				disp.image(image)
-				disp.display()
+				disp1.image(image)
+				disp1.display()
 				
 				# Update ROS
 				rospy.rostime.wallsleep(1.0)
