@@ -21,7 +21,7 @@ def set_speed(motor_ID, value):
 		else:
 			rospy.logerror('set_speed(%d, %f) -> invalid motor_ID=%d', motor_ID, value, motor_ID)
 			return
-		
+
 		motor.setSpeed(speed)
 
 		if value > 0:
@@ -106,18 +106,18 @@ if __name__ == '__main__':
 
 		motor_left = motor_driver.getMotor(motor_left_ID)
 		motor_right = motor_driver.getMotor(motor_right_ID)
-	
+
 	elif 93 in addresses:
 		# setup motor controller
 		motor_driver = qwiic.QwiicScmd()
 
-		
+
 	# stop the motors as precaution
 	all_stop()
 
 	# setup ros node
 	rospy.init_node('jetbot_motors')
-	
+
 	rospy.Subscriber('~cmd_dir', String, on_cmd_dir)
 	rospy.Subscriber('~cmd_raw', String, on_cmd_raw)
 	rospy.Subscriber('~cmd_str', String, on_cmd_str)

@@ -28,7 +28,7 @@ def get_network_interface_state(interface):
 user_text=None
 
 def on_user_text(msg):
-	global user_text	
+	global user_text
 	user_text=msg.data
 
 	rospy.loginfo(rospy.get_caller_id() + ' user_text=%s', msg.data)
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
 	# 128x32 display (default)---------------------------------------------
 	if 60 in addresses:
-		disp1 = Adafruit_SSD1306.SSD1306_128_32(rst=None, i2c_bus=1, gpio=1) # setting gpio to 1 is hack to avoid platform detection
+		disp1 = Adafruit_SSD1306.SSD1306_128_32(rst=None, i2c_bus=1, gpio=1)	# setting gpio to 1 is hack to avoid platform detection
 		try:
 			# Initiallize Display
 			disp1.begin()
@@ -81,9 +81,9 @@ if __name__ == '__main__':
 			draw.rectangle((0,0,width,height), outline=0, fill=0)
 		except OSError as err:
 			print("OS error: {0}".format(err))
-			
+
 			# Update ROS
-			rospy.rostime.wallsleep(1.0) # Pause 1 sec
+			rospy.rostime.wallsleep(1.0)	# Pause 1 sec
 
 	# 48 x 64 display------------------------------------------------------
 	elif 61 in addresses:
@@ -96,7 +96,7 @@ if __name__ == '__main__':
 			disp2.display()
 
 			# Update ROS
-			rospy.rostime.wallsleep(5.0) # Pause 5 sec
+			rospy.rostime.wallsleep(5.0)	# Pause 5 sec
 
 			# Clear Display
 			disp2.clear(disp2.PAGE)
@@ -111,9 +111,9 @@ if __name__ == '__main__':
 			LCDWIDTH = qwiic_micro_oled._LCDWIDTH
 		except OSError as err:
 			print("OS error: {0}".format(err))
-			
+
 			# Update ROS
-			rospy.rostime.wallsleep(1.0) # Pause 1 sec
+			rospy.rostime.wallsleep(1.0)	# Pause 1 sec
 
 
 	# setup ros node
@@ -127,7 +127,7 @@ if __name__ == '__main__':
 		# addresses = qwiic.scan()
 
 		# Check Eth0, Wlan0, and Wlan1 Connections---------------------------------
-		a = 0    # Indexing of Connections
+		a = 0	# Indexing of Connections
 
 		# Checks for Ethernet Connection
 		try:
@@ -155,17 +155,17 @@ if __name__ == '__main__':
 
 		# Check Resource Usage-----------------------------------------------------
 		# Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-$
-			
+
 		# CPU Load
 		cmd = "top -bn1 | grep load | awk '{printf \"%.1f%%\", $(NF-2)}'"
 		CPU = subprocess.check_output(cmd, shell = True )
-		
+
 		# Memory Use
 		cmd = "free -m | awk 'NR==2{printf \"%.1f%%\", $3*100/$2}'"
 		Mem_percent = subprocess.check_output(cmd, shell = True )
 		cmd = "free -m | awk 'NR==2{printf \"%.2f/%.1f\", $3/1024,$2/1024}'"
 		MemUsage = subprocess.check_output(cmd, shell = True )
-		
+
 		# Disk Storage
 		cmd = "df -h | awk '$NF==\"/\"{printf \"%s\", $5}'"
 		Disk_percent = subprocess.check_output(cmd, shell = True )
@@ -176,7 +176,7 @@ if __name__ == '__main__':
 		try:
 			# 128x32 display (default)-------------------------------------------------
 			if 60 in addresses:
-				
+
 				# Draw a black filled box to clear the image.
 				draw.rectangle((0,0,width,height), outline=0, fill=0)
 
@@ -259,11 +259,11 @@ if __name__ == '__main__':
 				x7 = LCDWIDTH - (disp2._font.width + 1) * (len(str(DiskUsage.decode('utf-8')) + "GB"))
 
 				# Displays IP Address (if available)---------------------------------------
-				
+
 				# Clear Display
 				disp2.clear(disp2.PAGE)
 				disp2.clear(disp2.ALL)
-				
+
 				#Set Cursor at Origin
 				disp2.set_cursor(0,0)
 
@@ -275,11 +275,11 @@ if __name__ == '__main__':
 					d = 8
 
 					disp2.print(str(user_text))
-			
+
 					#Set Cursor at Origin
 					disp2.set_cursor(0, d)
 
-				
+
 				# Prints IP Address on OLED Display
 				if a == 1:
 					disp2.print("eth0:")
@@ -290,7 +290,7 @@ if __name__ == '__main__':
 						disp2.print(str(eth[i::]))
 					else:
 						disp2.print(str(eth))
-					
+
 				elif a == 2:
 					disp2.print("wlan0: ")
 					disp2.set_cursor(0,8 + d)
@@ -300,7 +300,7 @@ if __name__ == '__main__':
 						disp2.print(str(wlan0[j::]))
 					else:
 						disp2.print(str(wlan0))
-					
+
 				elif a == 3:
 					disp2.print("eth0:")
 					disp2.set_cursor(0,8 + d)
@@ -310,7 +310,7 @@ if __name__ == '__main__':
 						disp2.print(str(eth[i::]))
 					else:
 						disp2.print(str(eth))
-					
+
 					disp2.set_cursor(0,24 + d)
 					disp2.print("wlan0: ")
 					disp2.set_cursor(0,32 + d)
@@ -340,7 +340,7 @@ if __name__ == '__main__':
 						disp2.print(str(eth[i::]))
 					else:
 						disp2.print(str(eth))
-					
+
 					disp2.set_cursor(0,24 + d)
 					disp2.print("wlan1: ")
 					disp2.set_cursor(0,32 + d)
@@ -354,11 +354,11 @@ if __name__ == '__main__':
 				else:
 					disp2.set_cursor(0,d)
 					disp2.print("No Connection!")
-				
+
 				disp2.display()
 
 				# Update ROS
-				rospy.rostime.wallsleep(10.0) # Pause 10 sec
+				rospy.rostime.wallsleep(10.0)	# Pause 10 sec
 
 				# Displays Resource Usage-------------------------------------------
 				# ------------------------------------------------------------------
@@ -374,7 +374,7 @@ if __name__ == '__main__':
 				# Write user text.
 				if d == 8:
 					disp2.print(user_text)
-			
+
 					#Set Cursor at Origin
 					disp2.set_cursor(0, d)
 
@@ -383,22 +383,22 @@ if __name__ == '__main__':
 				disp2.print("CPU:")
 				disp2.set_cursor(0,10 + d)
 				disp2.print("Mem:")
-				disp2.set_cursor(0,20 + d)	
+				disp2.set_cursor(0,20 + d)
 				disp2.print("Disk:")
 
 				disp2.set_cursor(x3,0 + d)
 				disp2.print(str(CPU.decode('utf-8')))
 				disp2.set_cursor(x4,10 + d)
 				disp2.print(str(Mem_percent.decode('utf-8')))
-				disp2.set_cursor(x5,20 + d)	
+				disp2.set_cursor(x5,20 + d)
 				disp2.print(str(Disk_percent.decode('utf-8')))
-				
+
 				disp2.display()
 
 				# Update ROS
-				rospy.rostime.wallsleep(7.5) # Pause 7.5 sec
-				
-				
+				rospy.rostime.wallsleep(7.5)	# Pause 7.5 sec
+
+
 				# Size--------------------------------------------------------------
 				# Clear Display
 				disp2.clear(disp2.PAGE)
@@ -410,10 +410,10 @@ if __name__ == '__main__':
 				# Write user text.
 				if d == 8:
 					disp2.print(user_text)
-			
+
 					#Set Cursor at Origin
 					disp2.set_cursor(0, d)
-				
+
 				# Prints Capacity Use on OLED Display
 				disp2.set_cursor(0,0 + d)	# Set Cursor at Origin
 				disp2.print("Mem:")
@@ -423,11 +423,11 @@ if __name__ == '__main__':
 				disp2.print("Disk:")
 				disp2.set_cursor(x7,30 + d)
 				disp2.print(str(DiskUsage.decode('utf-8')) + "GB")
-				
+
 				disp2.display()
-				
+
 				# Update ROS
-				rospy.rostime.wallsleep(7.5) # Pause 7.5 sec
+				rospy.rostime.wallsleep(7.5)	# Pause 7.5 sec
 
 
 				# Clear Display
@@ -444,7 +444,7 @@ if __name__ == '__main__':
 
 					# Display image.
 					disp2.display()
-					
+
 					# Update ROS
 					rospy.rostime.wallsleep(10.0)
 
@@ -461,12 +461,12 @@ if __name__ == '__main__':
 
 			else:
 				break
-			
+
 		except OSError as err:
 			print("OS error: {0}".format(err))
-			
+
 			# Update ROS
-			rospy.rostime.wallsleep(5.0) # Pause 5 sec
+			rospy.rostime.wallsleep(5.0)	# Pause 5 sec
 			break
 		except:
 			break
